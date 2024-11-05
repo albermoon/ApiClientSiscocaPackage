@@ -19,11 +19,12 @@ class InterceptorApi extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     print("Realizando solicitud a: ${options.baseUrl}${options.path}Puerto: ${options.uri.port}");
     final token = await tokenProvider.readToken();
-    options.headers.addAll({
+    Map<String, dynamic> headers = {
       'Content-Type': 'application/json',
-      "Authorization": "Bearer $token",
+      'Authorization': 'Bearer $token',
+    };
 
-    });
+    options.headers.addAll(headers);
     options.followRedirects = true;
     options.validateStatus = (status) => status != null && status >= 200 && status < 400;
     handler.next(options);

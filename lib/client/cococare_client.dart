@@ -1,7 +1,5 @@
-import 'package:api/interceptor/interceptor_api.dart';
-import 'package:api/token/firebase_token_refresher.dart';
-import 'package:api/token/token_refresher.dart';
-import 'package:api/token/token_storage.dart';
+
+import 'package:api/api.dart';
 import 'package:dio/dio.dart';
 
 class ApiRequestFailure implements Exception {
@@ -35,7 +33,7 @@ class CococareApiClient {
   CococareApiClient._({
     required this.baseUrl,
     required this.tokenProvider,
-    Dio? dioClient,
+    Dio? dioClient, required Map<String, String> headers,
   }) {
     dio = dioClient ?? Dio();
     tokenRefresher = FirebaseTokenRefresher();
@@ -60,7 +58,8 @@ class CococareApiClient {
         baseUrl = 'http://54.36.98.31:5000';
         break;
       case ApiEnvironment.localhost:
-        baseUrl = 'http://192.168.1.191:5000';
+        baseUrl = '192.168.1.189';
+        // baseUrl = 'http://192.168.2.118:5000';
         break;
       default:
         throw ArgumentError('Invalid environment');
@@ -70,6 +69,9 @@ class CococareApiClient {
       baseUrl: baseUrl,
       tokenProvider: tokenProvider,
       dioClient: dio,
+      headers: {
+        'Accept': '*/*',
+      },
     );
   }
 
