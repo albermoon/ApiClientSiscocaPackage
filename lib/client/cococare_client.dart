@@ -1,7 +1,5 @@
-import 'package:api/interceptor/interceptor_api.dart';
-import 'package:api/token/firebase_token_refresher.dart';
-import 'package:api/token/token_refresher.dart';
-import 'package:api/token/token_storage.dart';
+
+import 'package:api/api.dart';
 import 'package:dio/dio.dart';
 
 class ApiRequestFailure implements Exception {
