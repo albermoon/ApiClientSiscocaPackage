@@ -58,8 +58,8 @@ class CococareApiClient {
         baseUrl = 'http://54.36.98.31:5000';
         break;
       case ApiEnvironment.localhost:
-        baseUrl = '192.168.1.189';
-        // baseUrl = 'http://192.168.2.118:5000';
+        // baseUrl = 'http://192.168.1.189:5000';
+        baseUrl = 'http://192.168.2.118:5000';
         break;
       default:
         throw ArgumentError('Invalid environment');

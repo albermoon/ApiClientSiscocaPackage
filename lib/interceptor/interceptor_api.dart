@@ -1,6 +1,7 @@
 import 'package:api/token/token_refresher.dart';
 import 'package:api/token/token_storage.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/widgets.dart';
 
 class InterceptorApi extends Interceptor {
 
@@ -17,7 +18,7 @@ class InterceptorApi extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    print("Realizando solicitud a: ${options.baseUrl}${options.path}Puerto: ${options.uri.port}");
+    debugPrint("Realizando solicitud a: ${options.baseUrl}${options.path}Puerto: ${options.uri.port}");
     final token = await tokenProvider.readToken();
     Map<String, dynamic> headers = {
       'Content-Type': 'application/json',

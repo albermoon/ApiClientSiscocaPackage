@@ -7,3 +7,4 @@ export 'task_api.dart';
 export 'task_api_response.dart';
 export 'passport.dart';
 export 'device_user_api.dart';
+export 'news_category_api.dart';
