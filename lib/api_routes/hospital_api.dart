@@ -18,10 +18,9 @@ class HospitalApi {
     }
   }
 
-  static Future<(Map<String, dynamic>? data, String error)> postHospital(
-      Map<String, dynamic> hospitalData) async {
+  static Future<(Map<String, dynamic>? data, String error)> postHospital(Map<String, dynamic> hospitalData) async {
     final client = CococareApiClient.instance;
-    final endpoint = Uri.parse('${client.baseUrl}/hospitals');
+    final endpoint = Uri.parse('${client.baseUrl}/hospital');
     
     try {
       final response = await client.dio.postUri(endpoint, data: hospitalData);
@@ -34,10 +33,9 @@ class HospitalApi {
     }
   }
 
-  static Future<(Map<String, dynamic>? data, String error)> putHospital(
-      int id, Map<String, dynamic> hospitalData) async {
+  static Future<(Map<String, dynamic>? data, String error)> putHospital( int id, Map<String, dynamic> hospitalData) async {
     final client = CococareApiClient.instance;
-    final endpoint = Uri.parse('${client.baseUrl}/hospitals/$id');
+    final endpoint = Uri.parse('${client.baseUrl}/hospital/$id');
     
     try {
       final response = await client.dio.putUri(endpoint, data: hospitalData);
@@ -52,19 +50,18 @@ class HospitalApi {
     }
   }
 
-  static Future<String> deleteHospital(int id) async {
+  static Future<(bool?, String)> deleteHospital(int id) async { 
     final client = CococareApiClient.instance;
-    final endpoint = Uri.parse('${client.baseUrl}/hospitals/$id');
+    final endpoint = Uri.parse('${client.baseUrl}/hospital/$id');
     
     try {
       final response = await client.dio.deleteUri(endpoint);
       if (response.statusCode == 204) {
-        return '';
-      } else {
-        return response.data.toString();
-      }
+        return (true, "");
+      } 
+      return (true, "");
     } catch (e) {
-      return e.toString();
+      return (null, e.toString());
     }
   }
 }
