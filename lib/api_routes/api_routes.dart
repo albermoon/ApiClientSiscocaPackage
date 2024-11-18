@@ -11,3 +11,4 @@ export 'news_category_api.dart';
 export 'hospital_api.dart';
 export 'study_api.dart';
 export 'doctor_api.dart';
+export 'patient_api.dart';

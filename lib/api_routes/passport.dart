@@ -1,6 +1,6 @@
 import 'package:api/api.dart';
 
-class CococareMedicalPassportApi {
+class MedicalPassportApi {
   static Future<(Map<String, dynamic>? passport, String error)> getMedicalPassport(String patientId) async {
     try {
       final client = CococareApiClient.instance;
@@ -43,11 +43,11 @@ class CococareMedicalPassportApi {
     }
   }
 
-  static Future<(bool success, String error)> updateMedicalPassport(int patientId, Map<String, dynamic> passportData) async {
+  static Future<(bool success, String error)> updateMedicalPassport(Map<String, dynamic> passportData) async {
     try {
       final client = CococareApiClient.instance;
       final response = await client.dio.putUri(
-        Uri.parse('${client.baseUrl}/medical-passport/patient/$patientId'),
+        Uri.parse('${client.baseUrl}/medical-passport/'),
         data: passportData,
       );
       if (response.statusCode == 200) {
