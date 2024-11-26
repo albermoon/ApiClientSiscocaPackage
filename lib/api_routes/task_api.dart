@@ -72,11 +72,11 @@ class CococareTaskApi {
   }
 
   /// Update an existing task
-  static Future<(Map<String, dynamic>? task, String error)> putTask(int id, Map<String, dynamic> taskData) async {
+  static Future<(Map<String, dynamic>? task, String error)> putTask( Map<String, dynamic> taskData) async {
     try {
       final client = CococareApiClient.instance;
       final response = await client.dio.put(
-        Uri.parse('${client.baseUrl}/tasks/$id').toString(),
+        Uri.parse('${client.baseUrl}/tasks/').toString(),
         data: taskData,
       );
       
@@ -96,7 +96,7 @@ class CococareTaskApi {
   }
 
   /// Delete a task
-  static Future<String> deleteTask(int id) async {
+  static Future<(bool task, String error)> deleteTask(int id) async {
     try {
       final client = CococareApiClient.instance;
       final response = await client.dio.delete(
@@ -104,7 +104,7 @@ class CococareTaskApi {
       );
       
       if (response.statusCode == 204) {
-        return '';
+        return (true, '');
       } else {
         throw ApiRequestFailure(
           body: response.data,
@@ -113,7 +113,7 @@ class CococareTaskApi {
         );
       }
     } catch (e) {
-      return e.toString();
+      return (false, e.toString());
     }
   }
 

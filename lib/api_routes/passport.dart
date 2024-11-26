@@ -83,4 +83,45 @@ class MedicalPassportApi {
       return (false, e.toString());
     }
   }
+
+
+  static Future<(bool success, String error)> deleteProcedure(String procedureId) async {
+    try {
+      final client = CococareApiClient.instance;
+      final response = await client.dio.deleteUri(
+        Uri.parse('${client.baseUrl}/medical-passport/procedure/$procedureId'),
+      );
+      if (response.statusCode == 204) {
+        return (true, '');
+      } else {
+        throw ApiRequestFailure(
+          body: response.data,
+          statusCode: response.statusCode,
+          message: 'Failed to delete procedure'
+        );
+      }
+    } catch (e) {
+      return (false, e.toString());
+    }
+  }
+
+  static Future<(bool success, String error)> deleteResidualLesion(String lesionId) async {
+    try {
+      final client = CococareApiClient.instance;
+      final response = await client.dio.deleteUri(
+        Uri.parse('${client.baseUrl}/medical-passport/residual-lesion/$lesionId'),
+      );
+      if (response.statusCode == 204) {
+        return (true, '');
+      } else {
+        throw ApiRequestFailure(
+          body: response.data,
+          statusCode: response.statusCode,
+          message: 'Failed to delete residual lesion'
+        );
+      }
+    } catch (e) {
+      return (false, e.toString());
+    }
+  }
 }
