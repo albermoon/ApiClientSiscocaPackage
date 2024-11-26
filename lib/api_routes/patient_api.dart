@@ -43,6 +43,26 @@ class CococarePatientApi {
     }
   }
 
+  static Future<(List<Map<String, dynamic>>? data, String error)> getPatientsByStudyId(String id) async {
+    final client = CococareApiClient.instance;
+    final endpoint = Uri.parse('${client.baseUrl}/patients/study/$id');
+
+    try {
+      final response = await client.dio.getUri(endpoint);
+      if (response.statusCode == 200) {
+        final List<dynamic> responseData = response.data as List<dynamic>;
+        return (responseData.cast<Map<String, dynamic>>(), '');
+      } else {
+        final errorMessage = 'API request failed with status code: ${response.statusCode}';
+        debugPrint('$errorMessage\nResponse data: ${response.data}');
+        return (null, errorMessage);
+      }
+    } catch (e) {
+      final errorMessage = 'An unexpected error occurred: ${e.toString()}';
+      return (null, errorMessage);
+    }
+  }
+
   /// Create new patient
   static Future<(Map<String, dynamic>? data, String error)> postPatient(Map<String, dynamic> patientData) async {
     final client = CococareApiClient.instance;
