@@ -7,8 +7,8 @@ class CococareTaskResponseApi {
     try {
       logJsonInChunks(taskResponse);
       final client = CococareApiClient.instance;
-      final response = await client.dio.post(
-        Uri.parse('${client.baseUrl}/task_response').toString(),
+      final response = await client.dio.postUri(
+        Uri.parse('${client.baseUrl}/task_response/'),
         data: taskResponse,
       );
       if (response.statusCode == 201) {

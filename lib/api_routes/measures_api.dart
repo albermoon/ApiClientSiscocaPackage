@@ -1,31 +1,27 @@
 import 'dart:io';
-
 import 'package:api/client/cococare_client.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 class MeasuresApi {
 
   static Future<List<Map<String, dynamic>>> getHealthDataPoints(String patientId) async {
     final client = CococareApiClient.instance;
-    final endpoint = Uri.parse('${client.baseUrl}/getMeasures/$patientId');
-    try{
+    final endpoint = Uri.parse('${client.baseUrl}/measures/patient/$patientId');
+    try {
       final response = await client.dio.getUri(endpoint);
-      final data = response.data;
-      if (response.statusCode != HttpStatus.ok){
+      if (response.statusCode == HttpStatus.ok) {
+        final List<dynamic> rawData = response.data;
+        return rawData.map((item) => Map<String, dynamic>.from(item)).toList();
+      }else{
         throw ApiRequestFailure(
-          body: data,
+          body: response.data,
           statusCode: response.statusCode,
-          message: 'Unexpected response format: Data is not a Map',
+          message: 'Error: ${response.data.toString()} ',
         );
       }
-      return data;
-    } on DioException catch (e) {
-      throw ApiRequestFailure(
-        body: e.response?.data,
-        statusCode: e.response?.statusCode,
-        message: e.message,
-      );
+    } catch (e) {
+      debugPrint(e.toString());
+      throw Exception(e.toString());
     }
   }
 
@@ -41,10 +37,10 @@ class MeasuresApi {
         throw ApiRequestFailure(
           body: data,
           statusCode: response.statusCode,
-          message: 'Unexpected response format: Data is not a Map',
+          message: 'Error: ${response.data.toString()}',
         );
       }
-    } 
+    }
     catch(e){
       debugPrint(e.toString());
       rethrow;

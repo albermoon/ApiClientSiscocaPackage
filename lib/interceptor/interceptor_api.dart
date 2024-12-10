@@ -14,7 +14,7 @@ class InterceptorApi extends Interceptor {
   final TokenStorage tokenProvider;
   final TokenRefresher tokenRefresher;
 
-  static const int maxAttempts = 0;
+  static const int maxAttempts = 1;
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
@@ -37,69 +37,41 @@ class InterceptorApi extends Interceptor {
 
     if (err.response?.statusCode == 401 && attempts < maxAttempts) {
       attempts++;
-      await refreshToken();
-      try {
-        final options = Options(
-          method: err.requestOptions.method,
-          headers: {
-            "Authorization": "Bearer ${await tokenProvider.readToken()}",
-          },
-        );
-        options.extra = {...err.requestOptions.extra, 'attempts': attempts};
+      err.requestOptions.extra['attempts'] = attempts;
 
-        final response = await dio.request<dynamic>(
-          err.requestOptions.path,
-          data: err.requestOptions.data,
-          queryParameters: err.requestOptions.queryParameters,
-          options: options,
-        );
-        return handler.resolve(response);
+      refreshToken();
+      try {
+        handler.resolve(await _retry(err.requestOptions));
       } on DioException catch (e) {
-        if (attempts < maxAttempts) {
-          // If we haven't reached max attempts, we'll let Dio retry by calling onError again
-          return onError(e..requestOptions.extra['attempts'] = attempts, handler);
-        } else {
-          return handler.next(e);
-        }
+        return onError(e..requestOptions.extra['attempts'] = attempts, handler);
       }
     }
+
+    // Pass the error to the next handler if conditions are not met
     handler.next(err);
   }
 
-  Future<String?> refreshToken() async {
-    return await tokenRefresher.refreshToken(tokenProvider);
+  void refreshToken() async {
+    await tokenRefresher.refreshToken(tokenProvider);
   }
 
   Future<Response<dynamic>> _retry(RequestOptions requestOptions) async {
-  const int maxAttempts = 4;
-  int attempts = 0;
-  
-  while (attempts < maxAttempts) {
-    try {
-      attempts++;
-      // Create a new `RequestOptions` object with the same method, path, data, and query parameters as the original request.
-      final options = Options(
-        method: requestOptions.method,
-        headers: {
-          "Authorization": "Bearer ${await tokenProvider.readToken()}",
-        },
-      );
-  
-      // Retry the request with the new `RequestOptions` object.
-      return dio.request<dynamic>(requestOptions.path,
-        data: requestOptions.data,
-        queryParameters: requestOptions.queryParameters,
-        options: options);
+    final options = Options(
+      method: requestOptions.method,
+      headers: {
+        "Authorization": "Bearer ${await tokenProvider.readToken()}",
+      },
+      extra: requestOptions.extra, // Preserve `extra` field
+    );
 
-    } catch (e) {
-      if (attempts == maxAttempts) {
-        rethrow;
-      }
-      await Future.delayed(Duration(seconds: 1 * attempts)); 
-    }
+    // Retry the request with the new options
+    return dio.request<dynamic>(
+      requestOptions.path,
+      data: requestOptions.data,
+      queryParameters: requestOptions.queryParameters,
+      options: options,
+    );
   }
-  throw Exception('No se pudo completar la solicitud después de $maxAttempts intentos');
-}
 }
 
 
