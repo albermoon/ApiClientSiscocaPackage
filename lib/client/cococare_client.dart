@@ -1,6 +1,7 @@
-
+import 'dart:io';
 import 'package:api/api.dart';
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 
 class ApiRequestFailure implements Exception {
   const ApiRequestFailure({
@@ -26,16 +27,29 @@ enum ApiEnvironment {
 class CococareApiClient {
   static CococareApiClient? _instance;
   late String baseUrl;
-  late TokenStorage tokenProvider;
   late Dio dio;
+  late TokenStorage tokenProvider;
   late TokenRefresher tokenRefresher;
 
-  CococareApiClient._({
+   CococareApiClient._({
     required this.baseUrl,
     required this.tokenProvider,
-    Dio? dioClient, required Map<String, String> headers,
+    Dio? dioClient,
+    required Map<String, String> headers,
   }) {
     dio = dioClient ?? Dio();
+    
+    // Configurar el cliente HTTP para aceptar certificados autofirmados en localhost
+    if (baseUrl.contains('localhost')) {
+      (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
+        final client = HttpClient();
+        client.badCertificateCallback = (X509Certificate cert, String host, int port) {
+          return host == 'localhost'; // Solo acepta certificados autofirmados para localhost
+        };
+        return client;
+      };
+    }
+
     tokenRefresher = FirebaseTokenRefresher();
     dio.interceptors.add(InterceptorApi(
       dio: dio,
@@ -43,6 +57,7 @@ class CococareApiClient {
       tokenRefresher: tokenRefresher,
     ));
   }
+
 
   static void initialize({
     required ApiEnvironment environment,
@@ -59,7 +74,7 @@ class CococareApiClient {
         break;
       case ApiEnvironment.localhost:
         // baseUrl = 'http://192.168.1.189:5000';
-        baseUrl = 'http://192.168.2.118:5000';
+        baseUrl = 'https://localhost';
         break;
       default:
         throw ArgumentError('Invalid environment');
