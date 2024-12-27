@@ -20,6 +20,7 @@ class ApiRequestFailure implements Exception {
 
 enum ApiEnvironment {
   localhost,
+  localweb,
   dev,
   pro
 }
@@ -39,12 +40,12 @@ class CococareApiClient {
   }) {
     dio = dioClient ?? Dio();
     
-    // Configurar el cliente HTTP para aceptar certificados autofirmados en localhost
+    // Configure the HTTP client to accept self-signed certificates on localhost
     if (baseUrl.contains('localhost')) {
       (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
         final client = HttpClient();
         client.badCertificateCallback = (X509Certificate cert, String host, int port) {
-          return host == 'localhost'; // Solo acepta certificados autofirmados para localhost
+          return host == 'localhost'; // Only accept self-signed certificates for localhost
         };
         return client;
       };
@@ -57,7 +58,6 @@ class CococareApiClient {
       tokenRefresher: tokenRefresher,
     ));
   }
-
 
   static void initialize({
     required ApiEnvironment environment,
@@ -73,8 +73,10 @@ class CococareApiClient {
         baseUrl = 'http://54.36.98.31:5000';
         break;
       case ApiEnvironment.localhost:
-        // baseUrl = 'http://192.168.1.189:5000';
         baseUrl = 'https://localhost';
+        break;
+      case ApiEnvironment.localweb:
+        baseUrl = 'http://192.168.1.39:5000';
         break;
       default:
         throw ArgumentError('Invalid environment');
