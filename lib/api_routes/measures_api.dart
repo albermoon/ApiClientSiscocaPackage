@@ -7,12 +7,14 @@ class MeasuresApi {
   static Future<List<Map<String, dynamic>>> getHealthDataPoints(String patientId) async {
     final client = CococareApiClient.instance;
     final endpoint = Uri.parse('${client.baseUrl}/measures/patient/$patientId');
+    
     try {
       final response = await client.dio.getUri(endpoint);
+      
       if (response.statusCode == HttpStatus.ok) {
         final List<dynamic> rawData = response.data;
         return rawData.map((item) => Map<String, dynamic>.from(item)).toList();
-      }else{
+      } else {
         throw ApiRequestFailure(
           body: response.data,
           statusCode: response.statusCode,
@@ -24,7 +26,7 @@ class MeasuresApi {
       throw Exception(e.toString());
     }
   }
-
+  
   static Future<void> sendMeasures( String patientId, List<Map<String, dynamic>> measures) async {
     try{
       final client = CococareApiClient.instance;

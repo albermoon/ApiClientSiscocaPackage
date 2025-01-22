@@ -12,3 +12,5 @@ export 'hospital_api.dart';
 export 'study_api.dart';
 export 'doctor_api.dart';
 export 'patient_api.dart';
+export 'alerts_api.dart';
+export 'alerts_threshold_api.dart';

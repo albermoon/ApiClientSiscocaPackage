@@ -25,7 +25,7 @@ class CococareTaskResponseApi {
     }
   }
 
-  static Future<( List<dynamic>? task, String error)> getTaskResponseByPatient(String patientId) async {
+  static Future<(List<dynamic>? task, String error)> getTaskResponseByPatient(String patientId) async {
     try {
       final client = CococareApiClient.instance;
       int? parsedId = int.parse(patientId);
@@ -35,6 +35,34 @@ class CococareTaskResponseApi {
       if (response.statusCode == 200) {
         return (response.data as List<dynamic>?,  '');
       } else {
+        throw ApiRequestFailure(
+          body: response.data,
+          statusCode: response.statusCode,
+          message: 'Failed to get task response'
+        );
+      }
+    } catch (e) {
+      return (null, e.toString());
+    }
+  }
+
+  static Future<(List<dynamic>? task, String error)> getTaskSurveyResponseByPatient(String patientId) async {
+    try {
+      final client = CococareApiClient.instance;
+      int? parsedId = int.parse(patientId);
+      final response = await client.dio.get(
+        Uri.parse('${client.baseUrl}/task_response/patient/survey/$parsedId').toString(),
+      );
+      if (response.statusCode == 200) {
+        return (response.data as List<dynamic>?,  '');
+      }else if(response.statusCode == 404) {
+        return throw ApiRequestFailure(
+          body: response.data,
+          statusCode: response.statusCode,
+          message: 'Dont exist patient with this id'
+        );
+      }
+       else {
         throw ApiRequestFailure(
           body: response.data,
           statusCode: response.statusCode,

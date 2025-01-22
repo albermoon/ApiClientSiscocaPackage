@@ -78,9 +78,7 @@ class CococareApiClient {
       case ApiEnvironment.localweb:
         baseUrl = 'http://192.168.1.39:5000';
         break;
-      default:
-        throw ArgumentError('Invalid environment');
-    }
+      }
 
     _instance = CococareApiClient._(
       baseUrl: baseUrl,
