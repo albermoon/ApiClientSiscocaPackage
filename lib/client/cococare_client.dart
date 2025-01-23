@@ -10,11 +10,8 @@ class ApiRequestFailure implements Exception {
     required this.message,
   });
 
-
   final int? statusCode;
-
   final Map<String, dynamic>? body;
-
   final String? message;
 }
 
@@ -70,7 +67,7 @@ class CococareApiClient {
         baseUrl = 'https://backend.cocoapp.es';
         break;
       case ApiEnvironment.dev:
-        baseUrl = 'http://54.36.98.31:5000';
+        baseUrl = 'https://devbackend.cuico.eu';
         break;
       case ApiEnvironment.localhost:
         baseUrl = 'https://localhost';
@@ -78,7 +75,7 @@ class CococareApiClient {
       case ApiEnvironment.localweb:
         baseUrl = 'http://192.168.1.39:5000';
         break;
-      }
+    }
 
     _instance = CococareApiClient._(
       baseUrl: baseUrl,
