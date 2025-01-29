@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:api/api.dart';
 
 class AlertApi {
@@ -25,10 +27,10 @@ class AlertApi {
     }
   }
 
-  static Future<(Map<String, dynamic>?, String)> putAlert(String id, Map<String, dynamic> data) async {
+  static Future<(Map<String, dynamic>?, String)> putAlert(Map<String, dynamic> data) async {
     try {
       final client = CococareApiClient.instance;
-      final endpoint = Uri.parse('${client.baseUrl}/alerts/$id');
+      final endpoint = Uri.parse('${client.baseUrl}/alerts/');
       final response = await client.dio.putUri(endpoint, data: data);
       return (response.data as Map<String, dynamic>, '');
     } catch (e) {
@@ -65,6 +67,23 @@ class AlertApi {
       final endpoint = Uri.parse('${client.baseUrl}/alerts/$id/read');
       final response = await client.dio.putUri(endpoint, data: {'doctor_id': doctorId});
       return (response.data as Map<String, dynamic>, '');
+    } catch (e) {
+      return (null, e.toString());
+    }
+  }
+
+  static Future<(int?, String)> getTotalAlerts() async {
+    try {
+      final client = CococareApiClient.instance;
+      final endpoint = Uri.parse('${client.baseUrl}/alerts/total');
+      final response = await client.dio.getUri(endpoint);
+      if (response.statusCode == HttpStatus.ok) {
+        final Map<String, dynamic> responseData = response.data;
+        final int totalAlerts = responseData['total_alerts'] as int;
+        return (totalAlerts, '');
+      } else {
+        return (null, 'Failed to fetch alerts: Status code ${response.statusCode}');
+      }
     } catch (e) {
       return (null, e.toString());
     }

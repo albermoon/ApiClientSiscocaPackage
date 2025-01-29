@@ -48,4 +48,27 @@ class MeasuresApi {
       rethrow;
     }
   }
+
+  static Future<List<Map<String, dynamic>>> getTotalWeekMeasures() async {
+    final client = CococareApiClient.instance;
+    final endpoint = Uri.parse('${client.baseUrl}/measures/total_week');
+    
+    try {
+      final response = await client.dio.getUri(endpoint);
+      
+      if (response.statusCode == HttpStatus.ok) {
+        final List<dynamic> rawData = response.data;
+        return rawData.map((item) => Map<String, dynamic>.from(item)).toList();
+      } else {
+        throw ApiRequestFailure(
+          body: response.data,
+          statusCode: response.statusCode,
+          message: 'Error: ${response.data.toString()} ',
+        );
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      throw Exception(e.toString());
+    }
+  }
 }
