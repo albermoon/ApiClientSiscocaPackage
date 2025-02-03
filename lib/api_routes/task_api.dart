@@ -117,6 +117,26 @@ class CococareTaskApi {
     }
   }
 
+  static Future<(bool task, String error)> desactivateTask(int id) async {
+    try {
+      final client = CococareApiClient.instance;
+      final response = await client.dio.delete(
+        Uri.parse('${client.baseUrl}/tasks/desactivate/$id').toString(),
+      );
+      if (response.statusCode == 204) {
+        return (true, '');
+      } else {
+        throw ApiRequestFailure(
+          body: response.data,
+          statusCode: response.statusCode,
+          message: 'Failed to delete task'
+        );
+      }
+    } catch (e) {
+      return (false, e.toString());
+    }
+  }
+
   /// Assigned task to a patient
   static Future<(Map<String, dynamic>? assignment, String error)> assignedTask(String patientId) async {
     try {
