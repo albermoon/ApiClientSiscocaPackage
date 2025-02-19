@@ -64,7 +64,7 @@ class CococareApiClient {
     String baseUrl;
     switch (environment) {
       case ApiEnvironment.pro:
-        baseUrl = 'https://backend.cocoapp.es';
+        baseUrl = 'https://pro.cocoapp.es:';
         break;
       case ApiEnvironment.dev:
         baseUrl = 'https://devbackend.cuico.eu';
