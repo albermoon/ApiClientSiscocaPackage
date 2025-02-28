@@ -33,8 +33,7 @@ class DoctorApi {
     }
   }
 
-  static Future<(Map<String, dynamic>? data, String error)> putDoctor(
-      int id, Map<String, dynamic> doctorData) async {
+  static Future<(Map<String, dynamic>? data, String error)> putDoctor( String id, Map<String, dynamic> doctorData) async {
     final client = CococareApiClient.instance;
     final endpoint = Uri.parse('${client.baseUrl}/doctors/$id');
     
@@ -51,7 +50,7 @@ class DoctorApi {
     }
   }
 
-  static Future<String> deleteDoctor(int id) async { final client = CococareApiClient.instance;
+  static Future<String> deleteDoctor(String id) async { final client = CococareApiClient.instance;
     final endpoint = Uri.parse('${client.baseUrl}/doctors/$id');
     
     try {

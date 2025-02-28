@@ -22,7 +22,6 @@ class StudyApi {
   static Future<(Map<String, dynamic>? data, String error)> postStudy(Map<String, dynamic> studyData) async {
     final client = CococareApiClient.instance;
     final endpoint = Uri.parse('${client.baseUrl}/studies');
-    
     try {
       final response = await client.dio.postUri(endpoint, data: studyData);
       if (response.statusCode == 201) {

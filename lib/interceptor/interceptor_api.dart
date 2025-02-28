@@ -15,7 +15,7 @@ class InterceptorApi extends Interceptor {
   final TokenRefresher tokenRefresher;
 
   static const int maxAttempts = 1;
-  static const Duration timeoutDuration = Duration(seconds: 10);
+  static const Duration timeoutDuration = Duration(seconds: 30);
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
