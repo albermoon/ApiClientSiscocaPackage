@@ -103,6 +103,25 @@ class CococarePatientApi {
     }
   }
 
+  static Future<(bool data, String error)> deletePatient(String id) async {
+    final client = CococareApiClient.instance;
+    final endpoint = Uri.parse('${client.baseUrl}/patients/$id');
+
+    try {
+      final response = await client.dio.deleteUri(endpoint);
+      if (response.statusCode == 204) {
+         return (true, '');
+      } else {
+        final errorMessage = 'API request failed with status code: ${response.statusCode}';
+        debugPrint('$errorMessage\nResponse data: ${response.data}');
+        return (false, response.data.toString());
+      }
+    } catch (e) {
+      final errorMessage = 'An unexpected error occurred: ${e.toString()}';
+      return (false, errorMessage);
+    }
+  }
+
   /// Delete patient
   static Future<String> deleteMedicalPassportPatient(String id) async {
     final client = CococareApiClient.instance;
