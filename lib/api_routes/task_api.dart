@@ -47,7 +47,6 @@ class CococareTaskApi {
     }
   }
 
-  /// Create a new task
   static Future<(Map<String, dynamic>? task, String error)> postTask(Map<String, dynamic> taskData) async {
     try {
       final client = CococareApiClient.instance;
