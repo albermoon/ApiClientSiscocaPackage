@@ -122,9 +122,8 @@ class CococareSurveyApi {
   static Future<(List<dynamic>? surveys, String error)> getAssignedSurveys(String patientId) async {
     try {
       final client = CococareApiClient.instance;
-      int? parsedId = int.parse(patientId);
       final response = await client.dio.get(
-        Uri.parse('${client.baseUrl}/tasks/survey/patient/$parsedId').toString(),
+        Uri.parse('${client.baseUrl}/tasks/survey/patient/$patientId').toString(),
       );
       
       if (response.statusCode == 200) {
