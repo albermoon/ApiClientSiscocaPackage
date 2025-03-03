@@ -1,11 +1,11 @@
 import 'package:api/api.dart';
 
 class CococareMedicationApi {
-  static Future<(List<dynamic>? medications, String error)> getMedications() async {
+  static Future<(List<dynamic>? medications, String error)> getMedicationsPatient(String patientId) async {
     try {
       final client = CococareApiClient.instance;
-      final response = await client.dio.get(
-        Uri.parse('${client.baseUrl}/medications').toString(),
+      final response = await client.dio.getUri(
+        Uri.parse('${client.baseUrl}/medications/patient/$patientId'),
       );
       if (response.statusCode == 200) {
         final data = response.data as List<dynamic>?;
