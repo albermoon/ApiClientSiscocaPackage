@@ -73,7 +73,7 @@ class CococareApiClient {
         baseUrl = 'https://localhost';
         break;
       case ApiEnvironment.localweb:
-        baseUrl = 'http://192.168.1.39:5000';
+        baseUrl = 'http://172.31.52.228:5000';
         break;
     }
 
