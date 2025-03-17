@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:api/api.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
+import 'package:flutter/foundation.dart';
 
 class ApiRequestFailure implements Exception {
   const ApiRequestFailure({
@@ -35,10 +36,16 @@ class CococareApiClient {
     Dio? dioClient,
     required Map<String, String> headers,
   }) {
-    dio = dioClient ?? Dio();
+    dio = dioClient ?? Dio(BaseOptions(
+      connectTimeout: const Duration(seconds: 60),
+      receiveTimeout: const Duration(seconds: 60),
+      sendTimeout: null,
+      headers: headers,
+      validateStatus: (status) => status != null && status < 500,
+    ));
     
     // Configure the HTTP client to accept self-signed certificates on localhost
-    if (baseUrl.contains('localhost')) {
+    if (!kIsWeb && baseUrl.contains('localhost')) {
       (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
         final client = HttpClient();
         client.badCertificateCallback = (X509Certificate cert, String host, int port) {
@@ -73,7 +80,7 @@ class CococareApiClient {
         baseUrl = 'https://localhost';
         break;
       case ApiEnvironment.localweb:
-        baseUrl = 'http://172.31.52.228:5000';
+        baseUrl = 'http://172.31.52.104:5000';
         break;
     }
 

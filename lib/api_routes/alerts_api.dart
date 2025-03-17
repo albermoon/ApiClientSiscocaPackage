@@ -49,7 +49,7 @@ class AlertApi {
     }
   }
 
-  static Future<(List<dynamic>?, String)> getPatientAlerts(int patientId) async {
+  static Future<(List<dynamic>?, String)> getPatientAlerts(String patientId) async {
     try {
       final client = CococareApiClient.instance;
       final endpoint = Uri.parse('${client.baseUrl}/alerts/patient/$patientId');
@@ -61,7 +61,7 @@ class AlertApi {
     }
   }
 
-  static Future<(Map<String, dynamic>?, String)> markAlertAsRead(String id, int doctorId) async {
+  static Future<(Map<String, dynamic>?, String)> markAlertAsRead(String id, String doctorId) async {
     try {
       final client = CococareApiClient.instance;
       final endpoint = Uri.parse('${client.baseUrl}/alerts/$id/read');

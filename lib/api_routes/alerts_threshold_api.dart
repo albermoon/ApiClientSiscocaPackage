@@ -24,7 +24,7 @@ class AlertThresholdApi {
     }
   }
 
-  static Future<(Map<String, dynamic>?, String)> putAlertThreshold(String id, Map<String, dynamic> data) async {
+  static Future<(Map<String, dynamic>?, String)> putAlertThreshold(int id, Map<String, dynamic> data) async {
     try {
       final client = CococareApiClient.instance;
       final endpoint = Uri.parse('${client.baseUrl}/alert-thresholds/$id');
@@ -35,7 +35,7 @@ class AlertThresholdApi {
     }
   }
 
-  static Future<String> deleteAlertThreshold(String id) async {
+  static Future<String> deleteAlertThreshold(int id) async {
     try {
       final client = CococareApiClient.instance;
       final endpoint = Uri.parse('${client.baseUrl}/alert-thresholds/$id');
@@ -46,7 +46,7 @@ class AlertThresholdApi {
     }
   }
 
-  static Future<(List<dynamic>?, String)> getThresholdsByPatient(int patientId) async {
+  static Future<(List<dynamic>?, String)> getThresholdsByPatient(String patientId) async {
     try {
       final client = CococareApiClient.instance;
       final endpoint = Uri.parse('${client.baseUrl}/alert-thresholds/measure-type/$patientId');
