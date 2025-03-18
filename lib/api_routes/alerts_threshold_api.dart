@@ -49,7 +49,7 @@ class AlertThresholdApi {
   static Future<(List<dynamic>?, String)> getThresholdsByPatient(String patientId) async {
     try {
       final client = CococareApiClient.instance;
-      final endpoint = Uri.parse('${client.baseUrl}/alert-thresholds/measure-type/$patientId');
+      final endpoint = Uri.parse('${client.baseUrl}/alert-thresholds/patient/$patientId');
       final response = await client.dio.getUri(endpoint);
       return (response.data as List<dynamic>?, '');
     } catch (e) {
