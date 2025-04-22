@@ -94,4 +94,28 @@ class MeasuresApi {
       throw Exception(e.toString());
     }
   }
+
+  static Future<Map<String, dynamic>> updateHealthDataPoint(String dataPointId, Map<String, dynamic> healthData) async {
+    try {
+      final client = CococareApiClient.instance;
+      final endpoint = Uri.parse('${client.baseUrl}/measures/$dataPointId');
+      
+      final response = await client.dio.putUri(
+        endpoint,
+        data: healthData,
+      );
+      
+      if (response.statusCode != HttpStatus.ok) {
+        throw ApiRequestFailure(
+          body: response.data,
+          statusCode: response.statusCode,
+          message: 'Error updating health data point: ${response.data.toString()}',
+        );
+      }
+      return response.data;
+    } catch (e) {
+      debugPrint('Error in updateHealthDataPoint: $e');
+      rethrow;
+    }
+  }
 }
