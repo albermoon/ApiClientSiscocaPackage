@@ -95,6 +95,34 @@ class MeasuresApi {
     }
   }
 
+  static Future<Map<DateTime, int>> fetchTotalHealthDataPoints(String patientId) async {
+    try {
+      final client = CococareApiClient.instance;
+      final response = await client.dio.getUri(Uri.parse('${client.baseUrl}/measures/patient/$patientId/daily-counts'));
+      
+      if (response.statusCode == HttpStatus.ok) {
+        final Map<String, dynamic> data = response.data;
+        final Map<DateTime, int> dataList = {};
+        
+        data.forEach((dateStr, count) {
+          final date = DateTime.parse(dateStr);
+          dataList[date] = count as int;
+        });
+
+        return dataList;
+      } else {
+        throw ApiRequestFailure(
+          body: response.data,
+          statusCode: response.statusCode,
+          message: 'Error: ${response.data.toString()}',
+        );
+      }
+    } catch (e) {
+      debugPrint('Error in fetchTotalHealthDataPoints: $e');
+      rethrow;
+    }
+  }
+
   static Future<Map<String, dynamic>> updateHealthDataPoint(String dataPointId, Map<String, dynamic> healthData) async {
     try {
       final client = CococareApiClient.instance;
