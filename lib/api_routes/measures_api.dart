@@ -4,12 +4,22 @@ import 'package:flutter/foundation.dart';
 
 class MeasuresApi {
 
-  static Future<List<Map<String, dynamic>>> getHealthDataPoints(String patientId) async {
+  static Future<List<Map<String, dynamic>>> getHealthDataPoints( String patientId, { DateTime? fromDate, DateTime? toDate }) async {
     final client = CococareApiClient.instance;
     final endpoint = Uri.parse('${client.baseUrl}/measures/patient/$patientId');
     
     try {
-      final response = await client.dio.getUri(endpoint);
+      final queryParams = <String, String>{};
+      if (fromDate != null) {
+        queryParams['from_date'] = fromDate.toUtc().toIso8601String();
+      }
+      if (toDate != null) {
+        queryParams['to_date'] = toDate.toUtc().toIso8601String();
+      }
+
+      final response = await client.dio.getUri(
+        endpoint.replace(queryParameters: queryParams),
+      );
       
       if (response.statusCode == HttpStatus.ok) {
         final List<dynamic> rawData = response.data;
@@ -143,6 +153,44 @@ class MeasuresApi {
       return response.data;
     } catch (e) {
       debugPrint('Error in updateHealthDataPoint: $e');
+      rethrow;
+    }
+  }
+
+  static Future<List<Map<String, dynamic>>> getHealthDataPointsByType(
+    String patientId,
+    String dataType, {
+    DateTime? fromDate,
+    DateTime? toDate,
+  }) async {
+    try {
+      final client = CococareApiClient.instance;
+      final endpoint = Uri.parse('${client.baseUrl}/measures/patient/$patientId/type/$dataType');
+      
+      final queryParams = <String, dynamic>{};
+      if (fromDate != null) {
+        queryParams['from_date'] = fromDate.toUtc().toIso8601String();
+      }
+      if (toDate != null) {
+        queryParams['to_date'] = toDate.toUtc().toIso8601String();
+      }
+
+      final response = await client.dio.getUri(
+        endpoint.replace(queryParameters: queryParams),
+      );
+      
+      if (response.statusCode == HttpStatus.ok) {
+        final List<dynamic> rawData = response.data;
+        return rawData.map((item) => Map<String, dynamic>.from(item)).toList();
+      } else {
+        throw ApiRequestFailure(
+          body: response.data,
+          statusCode: response.statusCode,
+          message: 'Error: ${response.data.toString()}',
+        );
+      }
+    } catch (e) {
+      debugPrint('Error in getHealthDataPointsByType: $e');
       rethrow;
     }
   }
