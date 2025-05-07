@@ -14,3 +14,4 @@ export 'doctor_api.dart';
 export 'patient_api.dart';
 export 'alerts_api.dart';
 export 'alerts_threshold_api.dart';
+export 'version_api.dart';
