@@ -74,7 +74,7 @@ class CococareApiClient {
         baseUrl = 'https://hos.cocoapp.es:';
         break;
       case ApiEnvironment.dev:
-        baseUrl = 'https://devbackend.cuico.eu';
+        baseUrl = 'https://dev.cocoapp.es';
         break;
       case ApiEnvironment.localhost:
         baseUrl = 'https://localhost';
