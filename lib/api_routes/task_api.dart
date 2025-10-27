@@ -47,6 +47,29 @@ class CococareTaskApi {
     }
   }
 
+  /// Get pending tasks for a specific patient
+  static Future<(List<dynamic>? pendingTasks, String error)> getPendingTasks(String patientId) async {
+    try {
+      final client = CococareApiClient.instance;
+      final response = await client.dio.get(
+        Uri.parse('${client.baseUrl}/tasks/pending/$patientId').toString(),
+      );
+      
+      if (response.statusCode == 200) {
+        final data = response.data as List<dynamic>?;
+        return (data, '');
+      } else {
+        throw ApiRequestFailure(
+          body: response.data,
+          statusCode: response.statusCode,
+          message: 'Failed to get pending tasks'
+        );
+      }
+    } catch (e) {
+      return (null, e.toString());
+    }
+  }
+
   static Future<(Map<String, dynamic>? task, String error)> postTask(Map<String, dynamic> taskData) async {
     try {
       final client = CococareApiClient.instance;
