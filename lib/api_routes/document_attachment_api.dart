@@ -39,44 +39,6 @@ class DocumentAttachmentApi {
     }
   }
 
-  /// Upload a document or image for a user using bytes (web-compatible).
-  static Future<(Map<String, dynamic>? data, String error)> uploadDocumentFromBytes({ 
-    required String userId, 
-    required Uint8List fileBytes,
-    required String fileName,
-    required String displayName 
-  }) async {
-    try {
-      final client = CococareApiClient.instance;
-      final endpoint = Uri.parse('${client.baseUrl}/documents/upload/$userId');
-
-      final file = MultipartFile.fromBytes(
-        fileBytes,
-        filename: fileName,
-      );
-
-      final formData = FormData.fromMap({
-        'file': file,
-        'display_name': displayName,
-      });
-
-      final response = await client.dio.postUri( 
-        endpoint, 
-        data: formData,
-        options: Options(contentType: 'multipart/form-data'),
-      );
-
-      if (response.statusCode == HttpStatus.created) {
-        return (Map<String, dynamic>.from(response.data), '');
-      } else {
-        debugPrint( 'uploadDocumentFromBytes failed with status: ${response.statusCode}, body: ${response.data}');
-        return ( null, 'Failed to upload document. Status code: ${response.statusCode}');
-      }
-    } catch (e) {
-      return (null, e.toString());
-    }
-  }
-
   /// Get all documents for a specific user.
   static Future<(List<Map<String, dynamic>>? data, String error)> getUserDocuments( String userId) async {
     try {
@@ -104,23 +66,16 @@ class DocumentAttachmentApi {
 
       final response = await client.dio.getUri(
         endpoint,
-        options: Options(
-          responseType: ResponseType.bytes,
-          validateStatus: (status) {
-            // Accept 200, 201, 202, 204, 206, 301, 302, 303, 307, 308
-            return status != null && status < 400;
-          },
-        ),
+        options: Options(responseType: ResponseType.bytes),
       );
 
       if (response.statusCode == HttpStatus.ok) {
         return (response.data as Uint8List, '');
       } else {
         debugPrint('downloadDocument failed with status: ${response.statusCode}');
-        return (null, 'Failed to download document. Status code: ${response.statusCode}');
+        return ( null, 'Failed to download document. Status code: ${response.statusCode}');
       }
     } catch (e) {
-      debugPrint('downloadDocument error: $e');
       return (null, e.toString());
     }
   }
