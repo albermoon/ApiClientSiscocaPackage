@@ -11,7 +11,8 @@ class DocumentAttachmentApi {
   /// `Map<String, dynamic>` when the request succeeds and `error` is an empty
   /// string. When the request fails `data` is `null` and `error` contains a
   /// description of the failure.
-  static Future<(Map<String, dynamic>? data, String error)> uploadDocument({ required String userId, required String filePath, required String displayName }) async {
+  static Future<(Map<String, dynamic>? data, String error)> uploadDocument(
+      {required String userId, required String filePath, required String displayName}) async {
     try {
       final client = CococareApiClient.instance;
       final endpoint = Uri.parse('${client.baseUrl}/documents/upload/$userId');
@@ -24,15 +25,17 @@ class DocumentAttachmentApi {
         'display_name': displayName,
       });
 
-      final response = await client.dio.postUri( endpoint, data: formData,
+      final response = await client.dio.postUri(
+        endpoint,
+        data: formData,
         options: Options(contentType: 'multipart/form-data'),
       );
 
       if (response.statusCode == HttpStatus.created) {
         return (Map<String, dynamic>.from(response.data), '');
       } else {
-        debugPrint( 'uploadDocument failed with status: ${response.statusCode}, body: ${response.data}');
-        return ( null, 'Failed to upload document. Status code: ${response.statusCode}');
+        debugPrint('uploadDocument failed with status: ${response.statusCode}, body: ${response.data}');
+        return (null, 'Failed to upload document. Status code: ${response.statusCode}');
       }
     } catch (e) {
       return (null, e.toString());
@@ -40,12 +43,8 @@ class DocumentAttachmentApi {
   }
 
   /// Upload a document or image for a user using bytes (web-compatible).
-  static Future<(Map<String, dynamic>? data, String error)> uploadDocumentFromBytes({ 
-    required String userId, 
-    required Uint8List fileBytes,
-    required String fileName,
-    required String displayName 
-  }) async {
+  static Future<(Map<String, dynamic>? data, String error)> uploadDocumentFromBytes(
+      {required String userId, required Uint8List fileBytes, required String fileName, required String displayName}) async {
     try {
       final client = CococareApiClient.instance;
       final endpoint = Uri.parse('${client.baseUrl}/documents/upload/$userId');
@@ -60,8 +59,8 @@ class DocumentAttachmentApi {
         'display_name': displayName,
       });
 
-      final response = await client.dio.postUri( 
-        endpoint, 
+      final response = await client.dio.postUri(
+        endpoint,
         data: formData,
         options: Options(contentType: 'multipart/form-data'),
       );
@@ -69,8 +68,8 @@ class DocumentAttachmentApi {
       if (response.statusCode == HttpStatus.created) {
         return (Map<String, dynamic>.from(response.data), '');
       } else {
-        debugPrint( 'uploadDocumentFromBytes failed with status: ${response.statusCode}, body: ${response.data}');
-        return ( null, 'Failed to upload document. Status code: ${response.statusCode}');
+        debugPrint('uploadDocumentFromBytes failed with status: ${response.statusCode}, body: ${response.data}');
+        return (null, 'Failed to upload document. Status code: ${response.statusCode}');
       }
     } catch (e) {
       return (null, e.toString());
@@ -78,7 +77,7 @@ class DocumentAttachmentApi {
   }
 
   /// Get all documents for a specific user.
-  static Future<(List<Map<String, dynamic>>? data, String error)> getUserDocuments( String userId) async {
+  static Future<(List<Map<String, dynamic>>? data, String error)> getUserDocuments(String userId) async {
     try {
       final client = CococareApiClient.instance;
       final endpoint = Uri.parse('${client.baseUrl}/documents/user/$userId');
@@ -88,8 +87,8 @@ class DocumentAttachmentApi {
         final List<dynamic> raw = response.data;
         return (raw.cast<Map<String, dynamic>>(), '');
       } else {
-        debugPrint( 'getUserDocuments failed with status: ${response.statusCode}, body: ${response.data}');
-        return ( null, 'Failed to fetch documents. Status code: ${response.statusCode}');
+        debugPrint('getUserDocuments failed with status: ${response.statusCode}, body: ${response.data}');
+        return (null, 'Failed to fetch documents. Status code: ${response.statusCode}');
       }
     } catch (e) {
       return (null, e.toString());
@@ -97,7 +96,7 @@ class DocumentAttachmentApi {
   }
 
   /// Download a document by its ID. Returns the raw bytes.
-  static Future<(Uint8List? data, String error)> downloadDocument( int documentId) async {
+  static Future<(Uint8List? data, String error)> downloadDocument(int documentId) async {
     try {
       final client = CococareApiClient.instance;
       final endpoint = Uri.parse('${client.baseUrl}/documents/download/$documentId');
@@ -135,11 +134,11 @@ class DocumentAttachmentApi {
       if (response.statusCode == HttpStatus.noContent) {
         return '';
       } else {
-        debugPrint( 'deleteDocument failed with status: ${response.statusCode}, body: ${response.data}');
+        debugPrint('deleteDocument failed with status: ${response.statusCode}, body: ${response.data}');
         return 'Failed to delete document. Status code: ${response.statusCode}';
       }
     } catch (e) {
       return e.toString();
     }
   }
-} 
+}

@@ -5,7 +5,7 @@ class StudyApi {
   static Future<(List<dynamic>? studies, String error)> getStudies() async {
     final client = CococareApiClient.instance;
     final endpoint = Uri.parse('${client.baseUrl}/studies');
-    
+
     try {
       final response = await client.dio.getUri(endpoint);
       if (response.statusCode == 200) {
@@ -33,10 +33,10 @@ class StudyApi {
     }
   }
 
-  static Future<(Map<String, dynamic>? data, String error)> putStudy( int id, Map<String, dynamic> studyData) async {
+  static Future<(Map<String, dynamic>? data, String error)> putStudy(int id, Map<String, dynamic> studyData) async {
     final client = CococareApiClient.instance;
     final endpoint = Uri.parse('${client.baseUrl}/studies/$id');
-    
+
     try {
       final response = await client.dio.putUri(endpoint, data: studyData);
       if (response.statusCode == 200) {
@@ -53,7 +53,7 @@ class StudyApi {
   static Future<String> deleteStudy(int id) async {
     final client = CococareApiClient.instance;
     final endpoint = Uri.parse('${client.baseUrl}/studies/$id');
-    
+
     try {
       final response = await client.dio.deleteUri(endpoint);
       if (response.statusCode == 204) {

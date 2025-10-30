@@ -11,11 +11,7 @@ class MedicalPassportApi {
         final data = response.data as Map<String, dynamic>?;
         return (data, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to get medical passport'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to get medical passport');
       }
     } catch (e) {
       return (null, e.toString());
@@ -32,11 +28,7 @@ class MedicalPassportApi {
       if (response.statusCode == 201) {
         return (true, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to create medical passport'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to create medical passport');
       }
     } catch (e) {
       return (false, e.toString());
@@ -53,11 +45,7 @@ class MedicalPassportApi {
       if (response.statusCode == 200) {
         return (true, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to update medical passport'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to update medical passport');
       }
     } catch (e) {
       return (false, e.toString());
@@ -73,17 +61,12 @@ class MedicalPassportApi {
       if (response.statusCode == 204) {
         return (true, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to delete medical passport'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to delete medical passport');
       }
     } catch (e) {
       return (false, e.toString());
     }
   }
-
 
   static Future<(bool success, String error)> deleteProcedure(String procedureId) async {
     try {
@@ -94,11 +77,7 @@ class MedicalPassportApi {
       if (response.statusCode == 204) {
         return (true, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to delete procedure'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to delete procedure');
       }
     } catch (e) {
       return (false, e.toString());
@@ -114,11 +93,7 @@ class MedicalPassportApi {
       if (response.statusCode == 204) {
         return (true, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to delete residual lesion'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to delete residual lesion');
       }
     } catch (e) {
       return (false, e.toString());

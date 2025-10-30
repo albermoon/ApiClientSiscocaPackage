@@ -10,7 +10,6 @@ class AlertApi {
       final response = await client.dio.getUri(endpoint);
       final data = response.data as List<dynamic>?;
       return (data, '');
-     
     } catch (e) {
       return (null, e.toString());
     }

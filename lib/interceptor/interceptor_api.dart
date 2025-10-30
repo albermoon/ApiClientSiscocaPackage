@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 
 class InterceptorApi extends Interceptor {
-
   InterceptorApi({
     required this.dio,
     required this.tokenProvider,

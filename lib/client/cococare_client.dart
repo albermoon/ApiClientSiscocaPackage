@@ -16,12 +16,7 @@ class ApiRequestFailure implements Exception {
   final String? message;
 }
 
-enum ApiEnvironment {
-  localhost,
-  localweb,
-  dev,
-  pro
-}
+enum ApiEnvironment { localhost, localweb, dev, pro }
 
 class CococareApiClient {
   static CococareApiClient? _instance;
@@ -30,20 +25,21 @@ class CococareApiClient {
   late TokenStorage tokenProvider;
   late TokenRefresher tokenRefresher;
 
-   CococareApiClient._({
+  CococareApiClient._({
     required this.baseUrl,
     required this.tokenProvider,
     Dio? dioClient,
     required Map<String, String> headers,
   }) {
-    dio = dioClient ?? Dio(BaseOptions(
-      connectTimeout: const Duration(seconds: 60),
-      receiveTimeout: const Duration(seconds: 60),
-      sendTimeout: null,
-      headers: headers,
-      validateStatus: (status) => status != null && status < 500,
-    ));
-    
+    dio = dioClient ??
+        Dio(BaseOptions(
+          connectTimeout: const Duration(seconds: 60),
+          receiveTimeout: const Duration(seconds: 60),
+          sendTimeout: null,
+          headers: headers,
+          validateStatus: (status) => status != null && status < 500,
+        ));
+
     // Configure the HTTP client to accept self-signed certificates on localhost
     if (!kIsWeb && baseUrl.contains('localhost')) {
       (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {

@@ -1,4 +1,3 @@
-
 import 'package:api/api.dart';
 
 class AlertThresholdApi {

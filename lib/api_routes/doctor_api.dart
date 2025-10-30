@@ -4,7 +4,7 @@ class DoctorApi {
   static Future<(List<dynamic>? doctors, String error)> getDoctors() async {
     final client = CococareApiClient.instance;
     final endpoint = Uri.parse('${client.baseUrl}/doctors');
-    
+
     try {
       final response = await client.dio.getUri(endpoint);
       if (response.statusCode == 200) {
@@ -18,10 +18,10 @@ class DoctorApi {
     }
   }
 
-  static Future<(Map<String, dynamic>? data, String error)> postDoctor( Map<String, dynamic> doctorData) async {
+  static Future<(Map<String, dynamic>? data, String error)> postDoctor(Map<String, dynamic> doctorData) async {
     final client = CococareApiClient.instance;
     final endpoint = Uri.parse('${client.baseUrl}/doctors');
-    
+
     try {
       final response = await client.dio.postUri(endpoint, data: doctorData);
       if (response.statusCode == 201) {
@@ -33,10 +33,10 @@ class DoctorApi {
     }
   }
 
-  static Future<(Map<String, dynamic>? data, String error)> putDoctor( String id, Map<String, dynamic> doctorData) async {
+  static Future<(Map<String, dynamic>? data, String error)> putDoctor(String id, Map<String, dynamic> doctorData) async {
     final client = CococareApiClient.instance;
     final endpoint = Uri.parse('${client.baseUrl}/doctors/$id');
-    
+
     try {
       final response = await client.dio.putUri(endpoint, data: doctorData);
       if (response.statusCode == 200) {
@@ -50,9 +50,10 @@ class DoctorApi {
     }
   }
 
-  static Future<String> deleteDoctor(String id) async { final client = CococareApiClient.instance;
+  static Future<String> deleteDoctor(String id) async {
+    final client = CococareApiClient.instance;
     final endpoint = Uri.parse('${client.baseUrl}/doctors/$id');
-    
+
     try {
       final response = await client.dio.deleteUri(endpoint);
       if (response.statusCode == 204) {

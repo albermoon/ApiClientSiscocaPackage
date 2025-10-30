@@ -84,7 +84,7 @@ class CococarePatientApi {
   }
 
   /// Update existing patient
-  static Future<(Map<String, dynamic>? data, String error)> putPatient( Map<String, dynamic> patientData) async {
+  static Future<(Map<String, dynamic>? data, String error)> putPatient(Map<String, dynamic> patientData) async {
     final client = CococareApiClient.instance;
     final endpoint = Uri.parse('${client.baseUrl}/patients/');
 
@@ -110,7 +110,7 @@ class CococarePatientApi {
     try {
       final response = await client.dio.deleteUri(endpoint);
       if (response.statusCode == 204) {
-         return (true, '');
+        return (true, '');
       } else {
         final errorMessage = 'API request failed with status code: ${response.statusCode}';
         debugPrint('$errorMessage\nResponse data: ${response.data}');
@@ -152,7 +152,7 @@ class CococarePatientApi {
         endpoint,
         data: {'device_token': deviceToken},
       );
-      
+
       if (response.statusCode == 200) {
         return '';
       } else {

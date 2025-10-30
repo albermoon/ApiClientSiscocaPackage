@@ -1,7 +1,6 @@
 import 'package:api/api.dart';
 
 class CococareUserDeviceApi {
-  
   static Future<(bool success, String error)> postUserDevice(Map<String, dynamic> deviceData) async {
     try {
       final client = CococareApiClient.instance;
@@ -12,11 +11,7 @@ class CococareUserDeviceApi {
       if (response.statusCode == 201 || response.statusCode == 200) {
         return (true, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to create user device'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to create user device');
       }
     } catch (e) {
       return (false, e.toString());
@@ -33,11 +28,7 @@ class CococareUserDeviceApi {
         final data = response.data as Map<String, dynamic>?;
         return (data, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to get user device'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to get user device');
       }
     } catch (e) {
       return (null, e.toString());

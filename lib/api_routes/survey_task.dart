@@ -10,16 +10,12 @@ class CococareSurveyApi {
       final response = await client.dio.get(
         Uri.parse('${client.baseUrl}/tasks/survey').toString(),
       );
-      
+
       if (response.statusCode == 200) {
         final data = response.data as List<dynamic>?;
         return (data, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to get surveys'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to get surveys');
       }
     } catch (e) {
       return (null, e.toString());
@@ -33,15 +29,11 @@ class CococareSurveyApi {
       final response = await client.dio.get(
         Uri.parse('${client.baseUrl}/tasks/survey/$id').toString(),
       );
-      
+
       if (response.statusCode == 200) {
         return (response.data as Map<String, dynamic>?, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to get survey'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to get survey');
       }
     } catch (e) {
       return (null, e.toString());
@@ -57,15 +49,11 @@ class CococareSurveyApi {
         Uri.parse('${client.baseUrl}/tasks/survey').toString(),
         data: surveyData,
       );
-      
+
       if (response.statusCode == 201) {
         return (response.data as Map<String, dynamic>?, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to create survey'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to create survey');
       }
     } catch (e) {
       return (null, e.toString());
@@ -81,15 +69,11 @@ class CococareSurveyApi {
         Uri.parse('${client.baseUrl}/tasks/survey/$id').toString(),
         data: surveyData,
       );
-      
+
       if (response.statusCode == 200) {
         return (response.data as Map<String, dynamic>?, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to update survey'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to update survey');
       }
     } catch (e) {
       return (null, e.toString());
@@ -103,15 +87,11 @@ class CococareSurveyApi {
       final response = await client.dio.delete(
         Uri.parse('${client.baseUrl}/tasks/survey/$id').toString(),
       );
-      
+
       if (response.statusCode == 204) {
         return '';
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to delete survey'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to delete survey');
       }
     } catch (e) {
       return e.toString();
@@ -125,15 +105,11 @@ class CococareSurveyApi {
       final response = await client.dio.get(
         Uri.parse('${client.baseUrl}/tasks/survey/patient/$patientId').toString(),
       );
-      
+
       if (response.statusCode == 200) {
         return (response.data as List<dynamic>?, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to get assigned surveys'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to get assigned surveys');
       }
     } catch (e) {
       return (null, e.toString());

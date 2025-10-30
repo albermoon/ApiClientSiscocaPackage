@@ -11,11 +11,7 @@ class CococareMedicationApi {
         final data = response.data as List<dynamic>?;
         return (data, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to get medications'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to get medications');
       }
     } catch (e) {
       return (null, e.toString());
@@ -32,11 +28,7 @@ class CococareMedicationApi {
         final data = response.data as Map<String, dynamic>?;
         return (data, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to get medication'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to get medication');
       }
     } catch (e) {
       return (null, e.toString());
@@ -53,11 +45,7 @@ class CococareMedicationApi {
       if (response.statusCode == 201) {
         return (true, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to add medication'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to add medication');
       }
     } catch (e) {
       return (false, e.toString());
@@ -74,11 +62,7 @@ class CococareMedicationApi {
       if (response.statusCode == 200) {
         return (true, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to update medication'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to update medication');
       }
     } catch (e) {
       return (false, e.toString());
@@ -94,11 +78,7 @@ class CococareMedicationApi {
       if (response.statusCode == 204) {
         return (true, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to delete medication'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to delete medication');
       }
     } catch (e) {
       return (false, e.toString());

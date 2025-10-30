@@ -2,7 +2,6 @@ import 'package:api/api.dart';
 import 'package:flutter/foundation.dart';
 
 class CococareUserApi {
-
   // Get patient data from the database id
   static Future<(Map<String, dynamic>? userData, String? error)> getUserData(String databaseId) async {
     final client = CococareApiClient.instance;

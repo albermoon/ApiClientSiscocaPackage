@@ -1,7 +1,6 @@
 import 'package:api/client/cococare_client.dart';
 
 class NewsApi {
-
   static Future<(List<dynamic>? news, String error)> getNews() async {
     final client = CococareApiClient.instance;
     final endpoint = Uri.parse('${client.baseUrl}/news/articles');
@@ -37,7 +36,7 @@ class NewsApi {
     final endpoint = Uri.parse('${client.baseUrl}/news/articles/$id');
     try {
       final response = await client.dio.putUri(endpoint, data: articleData);
-      
+
       if (response.statusCode == 200) {
         final data = response.data as Map<String, dynamic>?;
         return (data, '');
@@ -52,10 +51,10 @@ class NewsApi {
   static Future<String> deleteArticle(int id) async {
     final client = CococareApiClient.instance;
     final endpoint = Uri.parse('${client.baseUrl}/news/articles/$id');
-    
+
     try {
       final response = await client.dio.deleteUri(endpoint);
-      
+
       if (response.statusCode == 204) {
         return '';
       } else {

@@ -8,16 +8,12 @@ class CococareTaskApi {
       final response = await client.dio.get(
         Uri.parse('${client.baseUrl}/tasks').toString(),
       );
-      
+
       if (response.statusCode == 200) {
         final data = response.data as List<dynamic>?;
         return (data, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to get tasks'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to get tasks');
       }
     } catch (e) {
       return (null, e.toString());
@@ -31,16 +27,12 @@ class CococareTaskApi {
       final response = await client.dio.get(
         Uri.parse('${client.baseUrl}/tasks/assigned/$patientId').toString(),
       );
-      
+
       if (response.statusCode == 200) {
         final data = response.data as List<dynamic>?;
         return (data, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to get assigned tasks'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to get assigned tasks');
       }
     } catch (e) {
       return (null, e.toString());
@@ -54,16 +46,12 @@ class CococareTaskApi {
       final response = await client.dio.get(
         Uri.parse('${client.baseUrl}/tasks/pending/$patientId').toString(),
       );
-      
+
       if (response.statusCode == 200) {
         final data = response.data as List<dynamic>?;
         return (data, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to get pending tasks'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to get pending tasks');
       }
     } catch (e) {
       return (null, e.toString());
@@ -77,16 +65,12 @@ class CococareTaskApi {
         Uri.parse('${client.baseUrl}/tasks').toString(),
         data: taskData,
       );
-      
+
       if (response.statusCode == 201) {
         final data = response.data as Map<String, dynamic>?;
         return (data, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to create task'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to create task');
       }
     } catch (e) {
       return (null, e.toString());
@@ -94,23 +78,19 @@ class CococareTaskApi {
   }
 
   /// Update an existing task
-  static Future<(Map<String, dynamic>? task, String error)> putTask( Map<String, dynamic> taskData) async {
+  static Future<(Map<String, dynamic>? task, String error)> putTask(Map<String, dynamic> taskData) async {
     try {
       final client = CococareApiClient.instance;
       final response = await client.dio.put(
         Uri.parse('${client.baseUrl}/tasks/').toString(),
         data: taskData,
       );
-      
+
       if (response.statusCode == 200) {
         final data = response.data as Map<String, dynamic>?;
         return (data, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to update task'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to update task');
       }
     } catch (e) {
       return (null, e.toString());
@@ -124,15 +104,11 @@ class CococareTaskApi {
       final response = await client.dio.delete(
         Uri.parse('${client.baseUrl}/tasks/$id').toString(),
       );
-      
+
       if (response.statusCode == 204) {
         return (true, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to delete task'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to delete task');
       }
     } catch (e) {
       return (false, e.toString());
@@ -148,11 +124,7 @@ class CococareTaskApi {
       if (response.statusCode == 204) {
         return (true, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to delete task'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to delete task');
       }
     } catch (e) {
       return (false, e.toString());
@@ -166,16 +138,12 @@ class CococareTaskApi {
       final response = await client.dio.post(
         Uri.parse('${client.baseUrl}/tasks/assigned/$patientId').toString(),
       );
-      
+
       if (response.statusCode == 200) {
         final data = response.data as Map<String, dynamic>?;
         return (data, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to assign task'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to assign task');
       }
     } catch (e) {
       return (null, e.toString());
@@ -189,16 +157,12 @@ class CococareTaskApi {
       final response = await client.dio.get(
         Uri.parse('${client.baseUrl}/tasks/$id').toString(),
       );
-      
+
       if (response.statusCode == 200) {
         final data = response.data as Map<String, dynamic>?;
         return (data, '');
       } else {
-        throw ApiRequestFailure(
-          body: response.data,
-          statusCode: response.statusCode,
-          message: 'Failed to get task'
-        );
+        throw ApiRequestFailure(body: response.data, statusCode: response.statusCode, message: 'Failed to get task');
       }
     } catch (e) {
       return (null, e.toString());

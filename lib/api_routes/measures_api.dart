@@ -3,11 +3,10 @@ import 'package:api/client/cococare_client.dart';
 import 'package:flutter/foundation.dart';
 
 class MeasuresApi {
-
-  static Future<List<Map<String, dynamic>>> getHealthDataPoints( String patientId, { DateTime? fromDate, DateTime? toDate }) async {
+  static Future<List<Map<String, dynamic>>> getHealthDataPoints(String patientId, {DateTime? fromDate, DateTime? toDate}) async {
     final client = CococareApiClient.instance;
     final endpoint = Uri.parse('${client.baseUrl}/measures/patient/$patientId');
-    
+
     try {
       final queryParams = <String, String>{};
       if (fromDate != null) {
@@ -20,7 +19,7 @@ class MeasuresApi {
       final response = await client.dio.getUri(
         endpoint.replace(queryParameters: queryParams),
       );
-      
+
       if (response.statusCode == HttpStatus.ok) {
         final List<dynamic> rawData = response.data;
         return rawData.map((item) => Map<String, dynamic>.from(item)).toList();
@@ -36,15 +35,15 @@ class MeasuresApi {
       throw Exception(e.toString());
     }
   }
-  
-  static Future<Map<String, dynamic>> sendMeasures( String patientId, List<Map<String, dynamic>> measures ) async {
+
+  static Future<Map<String, dynamic>> sendMeasures(String patientId, List<Map<String, dynamic>> measures) async {
     try {
       final client = CococareApiClient.instance;
       final response = await client.dio.postUri(
         Uri.parse('${client.baseUrl}/measures/patient/$patientId'),
         data: measures,
       );
-      
+
       final data = response.data;
       if (response.statusCode != HttpStatus.ok) {
         throw ApiRequestFailure(
@@ -62,13 +61,13 @@ class MeasuresApi {
 
   /// Removes a single healthdatapoint
   /// [dataPointId] - the ID of the data point to remove
-  static Future<void> removeHealthDataPoint( String dataPointId) async {
+  static Future<void> removeHealthDataPoint(String dataPointId) async {
     try {
       final client = CococareApiClient.instance;
       final endpoint = Uri.parse('${client.baseUrl}/measures/$dataPointId');
-      
+
       final response = await client.dio.deleteUri(endpoint);
-      
+
       if (response.statusCode != HttpStatus.noContent) {
         throw ApiRequestFailure(
           body: response.data,
@@ -85,10 +84,10 @@ class MeasuresApi {
   static Future<List<Map<String, dynamic>>> getTotalWeekMeasures() async {
     final client = CococareApiClient.instance;
     final endpoint = Uri.parse('${client.baseUrl}/measures/total_week');
-    
+
     try {
       final response = await client.dio.getUri(endpoint);
-      
+
       if (response.statusCode == HttpStatus.ok) {
         final List<dynamic> rawData = response.data;
         return rawData.map((item) => Map<String, dynamic>.from(item)).toList();
@@ -109,11 +108,11 @@ class MeasuresApi {
     try {
       final client = CococareApiClient.instance;
       final response = await client.dio.getUri(Uri.parse('${client.baseUrl}/measures/patient/$patientId/daily-counts'));
-      
+
       if (response.statusCode == HttpStatus.ok) {
         final Map<String, dynamic> data = response.data;
         final Map<DateTime, int> dataList = {};
-        
+
         data.forEach((dateStr, count) {
           final date = DateTime.parse(dateStr);
           dataList[date] = count as int;
@@ -137,12 +136,12 @@ class MeasuresApi {
     try {
       final client = CococareApiClient.instance;
       final endpoint = Uri.parse('${client.baseUrl}/measures/$dataPointId');
-      
+
       final response = await client.dio.putUri(
         endpoint,
         data: healthData,
       );
-      
+
       if (response.statusCode != HttpStatus.ok) {
         throw ApiRequestFailure(
           body: response.data,
@@ -166,7 +165,7 @@ class MeasuresApi {
     try {
       final client = CococareApiClient.instance;
       final endpoint = Uri.parse('${client.baseUrl}/measures/patient/$patientId/type/$dataType');
-      
+
       final queryParams = <String, dynamic>{};
       if (fromDate != null) {
         queryParams['from_date'] = fromDate.toUtc().toIso8601String();
@@ -178,7 +177,7 @@ class MeasuresApi {
       final response = await client.dio.getUri(
         endpoint.replace(queryParameters: queryParams),
       );
-      
+
       if (response.statusCode == HttpStatus.ok) {
         final List<dynamic> rawData = response.data;
         return rawData.map((item) => Map<String, dynamic>.from(item)).toList();
