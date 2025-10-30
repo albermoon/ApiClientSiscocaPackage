@@ -19,9 +19,9 @@ class InterceptorApi extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    debugPrint("Realizando solicitud a: ${options.baseUrl}${options.path}Puerto: ${options.uri.port}");
+    debugPrint('Making request to: ${options.baseUrl}${options.path}  Port: ${options.uri.port}');
     final token = await tokenProvider.readToken();
-    Map<String, dynamic> headers = {
+    final Map<String, dynamic> headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
     };
@@ -37,8 +37,8 @@ class InterceptorApi extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    int attempts = err.requestOptions.extra['attempts'] ?? 0;
-    debugPrint("Error in request: ${err.message} (Attempt: $attempts)");
+    int attempts = err.requestOptions.extra['attempts'] as int? ?? 0;
+    debugPrint('Request error: ${err.message} (Attempt: $attempts)');
 
     if (err.response?.statusCode == 401 && attempts < maxAttempts) {
       attempts++;
@@ -64,7 +64,7 @@ class InterceptorApi extends Interceptor {
     final options = Options(
       method: requestOptions.method,
       headers: {
-        "Authorization": "Bearer ${await tokenProvider.readToken()}",
+        'Authorization': 'Bearer ${await tokenProvider.readToken()}',
       },
       extra: requestOptions.extra, // Preserve `extra` field
     );
