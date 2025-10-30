@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer' as developer;
 
 import 'package:api/api.dart';
 
@@ -57,8 +58,11 @@ class CococareTaskResponseApi {
 }
 
 void logJsonInChunks(Map<String, dynamic> json, {int chunkSize = 1000}) {
-  final jsonString = JsonEncoder.withIndent('  ').convert(json);
+  final jsonString = const JsonEncoder.withIndent('  ').convert(json);
   for (var i = 0; i < jsonString.length; i += chunkSize) {
-    print(jsonString.substring(i, (i + chunkSize).clamp(0, jsonString.length)));
+    developer.log(
+      jsonString.substring(i, (i + chunkSize).clamp(0, jsonString.length)),
+      name: 'api.logJsonInChunks',
+    );
   }
 }

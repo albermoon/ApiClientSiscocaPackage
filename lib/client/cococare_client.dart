@@ -35,10 +35,9 @@ class CococareApiClient {
         Dio(BaseOptions(
           connectTimeout: const Duration(seconds: 60),
           receiveTimeout: const Duration(seconds: 60),
-          sendTimeout: null,
           headers: headers,
           validateStatus: (status) => status != null && status < 500,
-        ));
+        ),);
 
     // Configure the HTTP client to accept self-signed certificates on localhost
     if (!kIsWeb && baseUrl.contains('localhost')) {
@@ -56,7 +55,7 @@ class CococareApiClient {
       dio: dio,
       tokenProvider: tokenProvider,
       tokenRefresher: tokenRefresher,
-    ));
+    ),);
   }
 
   static void initialize({

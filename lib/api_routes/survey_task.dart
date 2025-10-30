@@ -119,7 +119,7 @@ class CococareSurveyApi {
 
 /// Utility function to log large JSON objects in chunks
 void logJsonInChunks(Map<String, dynamic> json, {int chunkSize = 1000}) {
-  final jsonString = JsonEncoder.withIndent(' ').convert(json);
+  final jsonString = const JsonEncoder.withIndent(' ').convert(json);
   for (var i = 0; i < jsonString.length; i += chunkSize) {
     print(jsonString.substring(i, (i + chunkSize).clamp(0, jsonString.length)));
   }

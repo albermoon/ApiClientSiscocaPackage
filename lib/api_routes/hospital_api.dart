@@ -57,9 +57,9 @@ class HospitalApi {
     try {
       final response = await client.dio.deleteUri(endpoint);
       if (response.statusCode == 204) {
-        return (true, "");
+        return (true, '');
       }
-      return (true, "");
+      return (true, '');
     } catch (e) {
       return (null, e.toString());
     }
