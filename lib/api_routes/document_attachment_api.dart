@@ -105,10 +105,7 @@ class DocumentAttachmentApi {
         endpoint,
         options: Options(
           responseType: ResponseType.bytes,
-          validateStatus: (status) {
-            // Accept 200, 201, 202, 204, 206, 301, 302, 303, 307, 308
-            return status != null && status < 400;
-          },
+          validateStatus: (status) => status != null && status < 400, // Accept 200, 201, 202, 204, 206, 301, 302, 303, 307, 308
         ),
       );
 

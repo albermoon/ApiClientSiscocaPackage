@@ -1,5 +1,7 @@
 import 'dart:convert';
+
 import 'package:api/api.dart';
+import 'package:flutter/foundation.dart';
 
 /// API client class for survey-specific task operations
 class CococareSurveyApi {
@@ -121,6 +123,6 @@ class CococareSurveyApi {
 void logJsonInChunks(Map<String, dynamic> json, {int chunkSize = 1000}) {
   final jsonString = const JsonEncoder.withIndent(' ').convert(json);
   for (var i = 0; i < jsonString.length; i += chunkSize) {
-    print(jsonString.substring(i, (i + chunkSize).clamp(0, jsonString.length)));
+    debugPrint(jsonString.substring(i, (i + chunkSize).clamp(0, jsonString.length)));
   }
 }
