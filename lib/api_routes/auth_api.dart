@@ -17,9 +17,10 @@ class CococareAuthApi {
       throw ApiRequestFailure(statusCode: response.statusCode, body: data, message: 'User ID not found in response');
     } on DioException catch (e) {
       throw ApiRequestFailure(
-          statusCode: e.response?.statusCode ?? 500,
-          body: e.response?.data as Map<String, dynamic>?,
-          message: e.message ?? 'Network error occurred',);
+        statusCode: e.response?.statusCode ?? 500,
+        body: e.response?.data as Map<String, dynamic>?,
+        message: e.message ?? 'Network error occurred',
+      );
     } catch (e) {
       throw ApiRequestFailure(statusCode: 500, body: null, message: 'Unexpected error: ${e.toString()}');
     }
@@ -40,9 +41,10 @@ class CococareAuthApi {
       throw ApiRequestFailure(statusCode: response.statusCode, body: data, message: 'User ID not found in response');
     } on DioException catch (e) {
       throw ApiRequestFailure(
-          statusCode: e.response?.statusCode ?? 500,
-          body: e.response?.data as Map<String, dynamic>?,
-          message: e.message ?? 'Network error occurred',);
+        statusCode: e.response?.statusCode ?? 500,
+        body: e.response?.data as Map<String, dynamic>?,
+        message: e.message ?? 'Network error occurred',
+      );
     } on ApiRequestFailure {
       rethrow;
     } catch (e) {

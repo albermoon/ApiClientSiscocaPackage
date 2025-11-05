@@ -11,8 +11,11 @@ class DocumentAttachmentApi {
   /// `Map<String, dynamic>` when the request succeeds and `error` is an empty
   /// string. When the request fails `data` is `null` and `error` contains a
   /// description of the failure.
-  static Future<(Map<String, dynamic>? data, String error)> uploadDocument(
-      {required String userId, required String filePath, required String displayName,}) async {
+  static Future<(Map<String, dynamic>? data, String error)> uploadDocument({
+    required String userId,
+    required String filePath,
+    required String displayName,
+  }) async {
     try {
       final client = CococareApiClient.instance;
       final endpoint = Uri.parse('${client.baseUrl}/documents/upload/$userId');
@@ -43,8 +46,12 @@ class DocumentAttachmentApi {
   }
 
   /// Upload a document or image for a user using bytes (web-compatible).
-  static Future<(Map<String, dynamic>? data, String error)> uploadDocumentFromBytes(
-      {required String userId, required Uint8List fileBytes, required String fileName, required String displayName,}) async {
+  static Future<(Map<String, dynamic>? data, String error)> uploadDocumentFromBytes({
+    required String userId,
+    required Uint8List fileBytes,
+    required String fileName,
+    required String displayName,
+  }) async {
     try {
       final client = CococareApiClient.instance;
       final endpoint = Uri.parse('${client.baseUrl}/documents/upload/$userId');

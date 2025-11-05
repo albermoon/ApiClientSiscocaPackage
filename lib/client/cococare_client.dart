@@ -32,29 +32,33 @@ class CococareApiClient {
     required Map<String, String> headers,
   }) {
     dio = dioClient ??
-        Dio(BaseOptions(
-          connectTimeout: const Duration(seconds: 60),
-          receiveTimeout: const Duration(seconds: 60),
-          headers: headers,
-          validateStatus: (status) => status != null && status < 500,
-        ),);
+        Dio(
+          BaseOptions(
+            connectTimeout: const Duration(seconds: 60),
+            receiveTimeout: const Duration(seconds: 60),
+            headers: headers,
+            validateStatus: (status) => status != null && status < 500,
+          ),
+        );
 
     // Configure the HTTP client to accept self-signed certificates on localhost
     if (!kIsWeb && baseUrl.contains('localhost')) {
       (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
         final client = HttpClient();
-        client.badCertificateCallback = (X509Certificate cert, String host, int port) =>
-          host == 'localhost'; // Only accept self-signed certificates for localhost
+        client.badCertificateCallback =
+            (X509Certificate cert, String host, int port) => host == 'localhost'; // Only accept self-signed certificates for localhost
         return client;
       };
     }
 
     tokenRefresher = FirebaseTokenRefresher();
-    dio.interceptors.add(InterceptorApi(
-      dio: dio,
-      tokenProvider: tokenProvider,
-      tokenRefresher: tokenRefresher,
-    ),);
+    dio.interceptors.add(
+      InterceptorApi(
+        dio: dio,
+        tokenProvider: tokenProvider,
+        tokenRefresher: tokenRefresher,
+      ),
+    );
   }
 
   static void initialize({
