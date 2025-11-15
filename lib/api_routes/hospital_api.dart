@@ -3,7 +3,7 @@ import 'package:api/client/cococare_client.dart';
 class HospitalApi {
   static Future<(List<dynamic>? hospitals, String error)> getHospitals() async {
     final client = CococareApiClient.instance;
-    final endpoint = Uri.parse('${client.baseUrl}/hospital');
+    final endpoint = Uri.parse('${client.baseUrl}/hospitals');
 
     try {
       final response = await client.dio.getUri(endpoint);

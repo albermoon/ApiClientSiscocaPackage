@@ -15,7 +15,7 @@ class MessagesApi {
   static Future<(List<dynamic>?, String)> getSentMessages() async {
     try {
       final client = CococareApiClient.instance;
-      final endpoint = Uri.parse('${client.baseUrl}/messages');
+      final endpoint = Uri.parse('${client.baseUrl}/messages/');
       final response = await client.dio.getUri(endpoint);
       return (response.data as List<dynamic>?, '');
     } catch (e) {
