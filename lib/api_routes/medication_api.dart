@@ -39,7 +39,7 @@ class CococareMedicationApi {
     try {
       final client = CococareApiClient.instance;
       final response = await client.dio.post(
-        Uri.parse('${client.baseUrl}/medications/').toString(),
+        Uri.parse('${client.baseUrl}/medications').toString(),
         data: medicationData,
       );
       if (response.statusCode == 201) {

@@ -13,6 +13,7 @@ export 'news_category_api.dart';
 export 'passport.dart';
 export 'patient_api.dart';
 export 'study_api.dart';
+export 'survey_task.dart';
 export 'task_api.dart';
 export 'task_api_response.dart';
 export 'user_api.dart';

@@ -112,19 +112,28 @@ class DocumentAttachmentApi {
         endpoint,
         options: Options(
           responseType: ResponseType.bytes,
-          validateStatus: (status) => status != null && status < 400, // Accept 200, 201, 202, 204, 206, 301, 302, 303, 307, 308
+          validateStatus: (status) => status != null && status < 500, // Accept all client errors to handle them properly
         ),
       );
 
       if (response.statusCode == HttpStatus.ok) {
         return (response.data as Uint8List, '');
+      } else if (response.statusCode == HttpStatus.gone || response.statusCode == HttpStatus.notFound) {
+        debugPrint('downloadDocument: Document not found or deleted (${response.statusCode})');
+        return (null, 'Document not found');
       } else {
         debugPrint('downloadDocument failed with status: ${response.statusCode}');
         return (null, 'Failed to download document. Status code: ${response.statusCode}');
       }
+    } on DioException catch (e) {
+      debugPrint('downloadDocument DioException: ${e.type} - ${e.message}');
+      if (e.response?.statusCode == HttpStatus.gone || e.response?.statusCode == HttpStatus.notFound) {
+        return (null, 'Document not found');
+      }
+      return (null, 'Network error: ${e.message ?? "Unknown error"}');
     } catch (e) {
       debugPrint('downloadDocument error: $e');
-      return (null, e.toString());
+      return (null, 'Unexpected error: ${e.toString()}');
     }
   }
 
