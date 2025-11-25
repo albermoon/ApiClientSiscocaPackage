@@ -22,7 +22,7 @@ class MedicalPassportApi {
     try {
       final client = CococareApiClient.instance;
       final response = await client.dio.postUri(
-        Uri.parse('${client.baseUrl}/medical-passport/'),
+        Uri.parse('${client.baseUrl}/medical-passport'),
         data: passportData,
       );
       if (response.statusCode == 201) {
@@ -39,7 +39,7 @@ class MedicalPassportApi {
     try {
       final client = CococareApiClient.instance;
       final response = await client.dio.putUri(
-        Uri.parse('${client.baseUrl}/medical-passport/'),
+        Uri.parse('${client.baseUrl}/medical-passport'),
         data: passportData,
       );
       if (response.statusCode == 200) {
