@@ -1,4 +1,4 @@
-library api;
+library;
 
 export 'api_routes/api_routes.dart';
 export 'client/cococare_client.dart';
