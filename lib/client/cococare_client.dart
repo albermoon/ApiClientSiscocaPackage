@@ -69,10 +69,10 @@ class CococareApiClient {
     String baseUrl;
     switch (environment) {
       case ApiEnvironment.pro:
-        baseUrl = 'https://hos.cocoapp.es';
+        baseUrl = 'https://hos.4heart.es';
         break;
       case ApiEnvironment.dev:
-        baseUrl = 'https://devh12.cocoapp.es';
+        baseUrl = 'https://devh12.4heart.es';
         break;
       case ApiEnvironment.localhost:
         baseUrl = 'http://127.0.0.1:8000';
