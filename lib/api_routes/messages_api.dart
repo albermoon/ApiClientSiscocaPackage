@@ -36,4 +36,29 @@ class MessagesApi {
       return (null, e.toString());
     }
   }
+
+  /// Hard delete a message by id (and its targets via backend cascade).
+  /// Returns an empty string on success, error message otherwise.
+  /// On failure, the returned message includes the HTTP status code and the
+  /// backend ``detail`` field when present, to ease diagnosis from the UI.
+  static Future<String> deleteMessage(int id) async {
+    try {
+      final client = CococareApiClient.instance;
+      final endpoint = Uri.parse('${client.baseUrl}/messages/$id');
+      final response = await client.dio.deleteUri(endpoint);
+      if (response.statusCode == 204 || response.statusCode == 200) {
+        return '';
+      }
+      final data = response.data;
+      String detail;
+      if (data is Map && data['detail'] != null) {
+        detail = data['detail'].toString();
+      } else {
+        detail = data?.toString() ?? '';
+      }
+      return 'HTTP ${response.statusCode}${detail.isNotEmpty ? ' - $detail' : ''}';
+    } catch (e) {
+      return e.toString();
+    }
+  }
 }
